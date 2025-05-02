@@ -1,0 +1,12 @@
+{
+  "pisici": {
+    "name": "pisici",
+    "address": "0x7bBc035319D62803a8df27b2Df4F40383C585e97",
+    "threshold": "0.8"
+  },
+  "caini": {
+    "name": "caini",
+    "address": "0x83fc6ce25396928326a30d551De0D6E69feFeFA8",
+    "threshold": "45.0"
+  }
+}
