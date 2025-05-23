@@ -3,16 +3,14 @@ const fs = require("fs");
 const path = require("path");
 async function deployUserProfile() {
   const [owner] = await ethers.getSigners();
-
+  const DonationFactory = await ethers.getContractFactory(
+    "DonationFactory",
+    owner
+  );
   const UserProfile = await ethers.getContractFactory("UserProfile", owner);
   const userProfile = await UserProfile.deploy();
   await userProfile.waitForDeployment();
-  const address = userProfile.target;
-  const output = {
-    userProfile: address,
-  };
-
-  const filePath = path.resolve(__dirname, "../info.json");
-  fs.writeFileSync(filePath, JSON.stringify(output, null, 2));
+  const donationFactory = await DonationFactory.deploy();
+  await donationFactory.waitForDeployment();
 }
 deployUserProfile().catch(console.error);

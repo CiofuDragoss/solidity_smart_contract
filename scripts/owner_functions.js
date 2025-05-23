@@ -5,10 +5,10 @@ const userProfileABI =
   require("../artifacts/contracts/UserProfile.sol/UserProfile.json").abi;
 
 const donationsABI =
-  require("../artifacts/contracts/donations.sol/Donation.json").abi;
+  require("../artifacts/contracts/Donation.sol/Donation.json").abi;
 
 const donationsBytecode =
-  require("../artifacts/contracts/donations.sol/Donation.json").bytecode;
+  require("../artifacts/contracts/Donation.sol/Donation.json").bytecode;
 
 async function createDonation(prompt, userProfileAddress, wallet) {
   const name = await prompt("\n introdu un nume pentru campania de donatii: ");
