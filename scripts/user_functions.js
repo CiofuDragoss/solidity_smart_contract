@@ -1,7 +1,7 @@
 const { ethers } = require("ethers");
 
 const donationsABI =
-  require("../artifacts/contracts/donations.sol/Donation.json").abi;
+  require("../artifacts/contracts/Donation.sol/Donation.json").abi;
 
 async function donate(prompt, address, wallet) {
   let etherValue = await prompt(

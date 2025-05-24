@@ -2,9 +2,9 @@
 pragma solidity ^0.8.18;
 
 contract UserProfile {
-    address public owner;
+    address public immutable owner;
 
-    
+     address[] public users;      
     mapping(address => string) private usernames;
 
     
@@ -45,7 +45,7 @@ contract UserProfile {
         
         nameToAddress[_username] = msg.sender;
 
-       
+       users.push(msg.sender); 
         emit UsernameSet(msg.sender, _username);
     }
 
@@ -57,5 +57,13 @@ contract UserProfile {
     
     function getAddressByUsername(string calldata _username) external view returns (address) {
         return nameToAddress[_username];
+    }
+
+    function getAllUsers() external view returns (address[] memory allUsers, uint256[] memory ethBalances) {
+        allUsers = users;
+        ethBalances = new uint256[](users.length);
+        for (uint256 i = 0; i < users.length; i++) {
+            ethBalances[i] = users[i].balance;
+        }
     }
 }

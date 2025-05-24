@@ -1,9 +1,13 @@
 const readline = require("readline");
 const { signUp } = require("./signUp");
-const { userProfile } = require("../info.json");
+require("dotenv").config();
+const { USERPROFILE_KEY: userProfile, DONATION_FACTORY_KEY: donationFactory } =
+  process.env;
 const { login } = require("./login");
 const { OwnerInterface } = require("./OwnerInterface");
 const { UserInterface } = require("./userInteface");
+console.log("UserProfile:", userProfile);
+console.log("DonationFactory:", donationFactory);
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -31,9 +35,9 @@ async function mainMenu() {
       const { isOk, isOwner, wallet } = await login(prompt, userProfile);
       if (isOk) {
         if (isOwner) {
-          await OwnerInterface(prompt, userProfile, wallet);
+          await OwnerInterface(prompt, userProfile, donationFactory, wallet);
         } else {
-          await UserInterface(prompt, wallet);
+          await UserInterface(prompt, donationFactory, wallet);
         }
       }
     }

@@ -8,5 +8,10 @@
     "name": "caini",
     "address": "0x7bBc035319D62803a8df27b2Df4F40383C585e97",
     "threshold": "0.5"
+  },
+  "dragos": {
+    "name": "dragos",
+    "address": "0x6EA60b40769525977b6f6e0D2236f661a062a794",
+    "threshold": "2.0"
   }
 }

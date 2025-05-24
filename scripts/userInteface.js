@@ -1,7 +1,8 @@
 const { checkWallet } = require("./verify_wallet");
 const { selectCampaign } = require("./select_campanie");
 const { donate } = require("./user_functions");
-async function UserInterface(prompt, wallet) {
+
+async function UserInterface(prompt, FactoryAddr, wallet) {
   while (true) {
     console.log("\n");
     console.log("tasta 1 -> doneaza");
@@ -14,7 +15,7 @@ async function UserInterface(prompt, wallet) {
     switch (opt) {
       case "1":
         try {
-          address = await selectCampaign(prompt);
+          address = await selectCampaign(prompt, FactoryAddr, wallet);
         } catch (err) {
           console.log("eroare! ", err.message);
           break;
