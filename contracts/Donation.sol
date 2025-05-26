@@ -8,7 +8,8 @@ interface IUserProfile {
 contract Donation {
     address public immutable owner;
     string public  name;
-    uint256 balance;
+    address public immutable factory;
+    uint256 public balance;
     bool public isActive = true;
     address public immutable donationTarget; 
     string public usernameTarget;
@@ -25,12 +26,16 @@ contract Donation {
     require(isActive, "Acest contract nu este activ,nu se mai poate dona sau modifica.");
     _;
 }
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Doar daca esti owner poti sa accesezi functia");
-        _;
-    }
 
-    constructor(string memory _name,address _owner, address _userProfileAddr,uint256 _limit,address _target,string memory _usernameTarget) {
+modifier onlyOwner() {
+  require(
+    msg.sender == owner || msg.sender == factory,
+    "Doar owner sau factory poate apela"
+  );
+  _;
+}
+
+    constructor(string memory _name,address _owner, address _userProfileAddr,uint256 _limit,address _target,string memory _usernameTarget,address _factory) {
         userProfile = IUserProfile(_userProfileAddr);
         require(bytes(_name).length > 0, "Numele campaniei nu poate fi gol!");
         require(_target != address(0), "Target invalid");
@@ -41,6 +46,7 @@ contract Donation {
         autoWithdrawThreshold=_limit;
         donationTarget      = _target; 
         usernameTarget      = _usernameTarget;
+        factory = _factory;
     }
 
     function donate() external payable onlyIfActive{

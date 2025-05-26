@@ -1,17 +1,19 @@
 const { ethers } = require("ethers");
-
+const { blue, red, yellow } = require("chalk").default;
 const donationsABI =
   require("../artifacts/contracts/Donation.sol/Donation.json").abi;
 
 async function donate(prompt, address, wallet) {
   let etherValue = await prompt(
-    "Introdu o valoare de eth pe care doresti sa o donezi cauzei selectate:   "
+    yellow(
+      "\nIntroduceti o valoare ETH pe care doriti sa o donati cauzei selectate: "
+    )
   );
   try {
     etherValue = ethers.parseEther(etherValue);
   } catch (err) {
     console.log(
-      "\n EROARE! valoare introdusa pentru donat are un format invalid!"
+      red("\n EROARE! valoare introdusa pentru donat are un format invalid!")
     );
     return;
   }
@@ -19,21 +21,25 @@ async function donate(prompt, address, wallet) {
   const donationContract = new ethers.Contract(address, donationsABI, wallet);
 
   let letGo = await prompt(
-    `urmeaza sa trimiti ${ethers.formatEther(
-      etherValue
-    )}. ESTI SIGUR ? NU SE POATE ANULA.daca DA, scrie ORICE,pentru exit apasa doar ENTER:   `
+    yellow(
+      `urmeaza sa trimiti ${ethers.formatEther(
+        etherValue
+      )}. ESTI SIGUR ? NU SE POATE ANULA. Pentru anulare tastati X, altfel tranzactia este trimisa si IREVERSIBILA!: `
+    )
   );
-  if (letGo) {
+  if (letGo.trim().toLowerCase() !== "x") {
     try {
       const tx = await donationContract.donate({ value: etherValue });
-      console.log(`urmeaza sa trimiti ${ethers.formatEther(etherValue)} .....`);
+      console.log(
+        blue(`\nUrmeaza sa trimiti ${ethers.formatEther(etherValue)} .....`)
+      );
       await tx.wait();
-      console.log("donatie realizata cu succes!");
+      console.log(yellow("\ndonatie realizata cu succes!"));
     } catch (err) {
-      console.log("eroare! :", err.reason || "Fonduri insuficiente!");
+      console.log(red("eroare! :"), red(err.reason || "Fonduri insuficiente!"));
     }
   } else {
-    console.log("Tranzactie anulata");
+    console.log(yellow("\nTranzactie anulata!"));
   }
 }
 

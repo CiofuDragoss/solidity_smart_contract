@@ -38,7 +38,7 @@ constructor() {
     ) external onlyOwner{
         bytes32 h = keccak256(bytes(_name));
          require(!nameInUse[h], "Nume deja folosit de o campanie activa");
-        Donation d = new Donation(_name,msg.sender, _userProfile, _threshold,_target, _usernameTarget);
+        Donation d = new Donation(_name,msg.sender, _userProfile, _threshold,_target, _usernameTarget,address(this));
         campaigns.push(address(d));
         nameInUse[h] = true;
         emit CampaignCreated(address(d), msg.sender, _name, _threshold,_target,_usernameTarget);

@@ -1,6 +1,7 @@
 const readline = require("readline");
 const { signUp } = require("./signUp");
 require("dotenv").config();
+const { green, yellow } = require("chalk").default;
 const { USERPROFILE_KEY: userProfile, DONATION_FACTORY_KEY: donationFactory } =
   process.env;
 const { login } = require("./login");
@@ -18,15 +19,17 @@ function prompt(text) {
 
 async function mainMenu() {
   while (true) {
-    console.log("MENIU PRINCIPAL");
-    console.log("tasta 1 -> Creaza wallet");
-    console.log("tasta 2 -> Login in wallet cu cheia priv");
-    console.log("tasta 0-> iesi ");
+    console.log("\n");
+    console.log(yellow("MENIU PRINCIPAL"));
+    console.log(green("tasta 1 -> Creaza wallet"));
+    console.log(green("tasta 2 -> Login in wallet cu cheia privata"));
+    console.log(green("tasta 0-> Exit "));
 
-    const opt = await prompt("\nAlege optiunea :");
+    const opt = await prompt(green("\nAlege optiunea :"));
 
     if (opt === "1") {
       await signUp(prompt, userProfile);
+      await prompt(green("\ncontinua (apasa orice)..."));
     } else if (opt === "0") {
       console.log("La revedere!");
       rl.close();
@@ -40,6 +43,7 @@ async function mainMenu() {
           await UserInterface(prompt, donationFactory, wallet);
         }
       }
+      await prompt(green("\ncontinua (apasa orice)..."));
     }
   }
 }
